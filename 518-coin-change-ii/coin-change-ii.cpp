@@ -1,17 +1,20 @@
 class Solution {
 public:
-    int totalWays(vector<int>& coins,int amount,int n, vector<vector<int>> &dp){
-        if(amount == 0) return 1;
-        if(n == 0 || amount < 0) return 0;
-
-        if(dp[n][amount] != -1) return dp[n][amount];
-
-        return dp[n][amount] = totalWays(coins,amount,n-1,dp) + totalWays(coins,amount-coins[n-1],n,dp);
-
-    }
     int change(int amount, vector<int>& coins) {
         int n = coins.size();
-        vector<vector<int>>dp(n+1,vector<int>(amount+1,-1));
-        return totalWays(coins,amount,n,dp);
+        vector<vector<unsigned int>>dp(n+1,vector<unsigned int>(amount+1,0)); //BaseCase: make first row 0 
+
+        //BaseCase: make first column 1
+        for(int i = 0; i <= n;i++){
+            dp[i][0] = 1;
+        }
+
+        for(int i = 1; i <= n;i++){
+            for(int j = 1; j <= amount;j++){
+                if(j-coins[i-1] >= 0) dp[i][j] = dp[i-1][j] + dp[i][j-coins[i-1]];
+                else dp[i][j] = dp[i-1][j];
+            }
+        }
+        return (int)dp[n][amount];
     }
 };
