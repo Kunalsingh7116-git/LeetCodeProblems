@@ -16,17 +16,20 @@ public:
         getperfectSquare(n,perfectSquare);
         int m = perfectSquare.size();
         // vector <vector<int>>dp(m+1,vector<int>(n+1,-1));
-        vector <vector<int>>dp(m+1,vector<int>(n+1,0));
-        for(int j = 0; j <= n; j++) dp[0][j] = 1e9;
-        for(int i = 0 ; i <= m;i++) dp[i][0] = 0;
+        // vector <vector<int>>dp(m+1,vector<int>(n+1,0))
+        vector <int> prev(n+1,0);
+        for(int j = 0; j <= n; j++) prev[j] = 1e9;
+        // for(int i = 0 ; i <= m;i++) dp[i][0] = 0;
 
         for(int i = 1; i <= m; i++){
+            vector <int> curr(n+1,0);
             for(int j = 1; j <= n;j++){
-                if(j-perfectSquare[i-1] >= 0)  dp[i][j] = min(dp[i-1][j], 1 + dp[i][j-perfectSquare[i-1]]);
-                else  dp[i][j] = dp[i-1][j];
+                if(j-perfectSquare[i-1] >= 0)  curr[j] = min(prev[j], 1 + curr[j-perfectSquare[i-1]]);
+                else  curr[j] = prev[j];
             }
+            prev = curr;
         }
-        return dp[m][n];
+        return prev[n];
         // return minSum(perfectSquare,m,n,dp);
     }
 };
