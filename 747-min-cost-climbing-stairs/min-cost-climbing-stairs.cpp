@@ -11,6 +11,9 @@ public:
     }
     int minCostClimbingStairs(vector<int>& cost) {
         int n = cost.size();
+        // if(n <=1) return 0;
+        // int prev1 = 0;
+        // int prev2 = 
         vector<int>dp(n+1,-1);
         return minSrairsCost(n,cost,dp);
     }
